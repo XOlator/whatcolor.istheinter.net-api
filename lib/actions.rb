@@ -1,0 +1,91 @@
+def current_color
+  {
+    count: Cache.get('palette_count').to_i, 
+    pixel: {hex: Cache.get('pixel_hex_color'), r: Cache.get('pixel_rgb_red').to_i, g: Cache.get('pixel_rgb_green').to_i, b: Cache.get('pixel_rgb_blue').to_i}, 
+    dominant: {hex: Cache.get('dominant_hex_color'), r: Cache.get('dominant_rgb_red').to_i, g: Cache.get('dominant_rgb_green').to_i, b: Cache.get('dominant_rgb_blue').to_i}, 
+    cached_at: Time.at(Cache.get('index_reset_at').to_i)
+  }
+end
+
+def color_stream(opts={})
+  l = opts[:limit]
+  l ||= 60
+  ColorPalette.has_pixel_color.order('id desc').limit(l.to_i > 300 ? 300 : l.to_i).map(&:to_api)
+end
+
+
+# API Stream (latest)
+# Show the latest stream information from the scraping process.
+#
+#   Options:
+#   *   limit - (default: 60, min: 1, max: 300)
+#
+get '/api/stream' do
+  respond_to do |format|
+    format.json {
+      content_type :json
+      color_stream(params).to_json#, params[:callback]
+    }
+  end
+end
+
+# API Current
+# Show the latest results from the scraping process. 
+# Cached results up to 5 minutes old
+#   
+#   Options:
+#   *   [none]
+#
+get '/api/current' do
+  reset_cache = Proc.new {
+    t = Cache.get('index_reset_at') rescue nil
+    t ||= 0
+    to = 5.minutes
+
+    if (Time.now > (Time.at(t.to_i)+to))
+      pixel_rgb, dom_rgb = ColorPalette.pixel_rgb, ColorPalette.dominant_rgb
+      Cache.set('palette_count', ColorPalette.count)
+      Cache.set('pixel_hex_color', ColorPalette.pixel_hex_color)
+      Cache.set('dominant_hex_color', ColorPalette.dominant_hex_color)
+      Cache.set('pixel_rgb_red', pixel_rgb[0].round)
+      Cache.set('pixel_rgb_green', pixel_rgb[1].round)
+      Cache.set('pixel_rgb_blue', pixel_rgb[2].round)
+      Cache.set('dominant_rgb_red', dom_rgb[0].round)
+      Cache.set('dominant_rgb_green', dom_rgb[1].round)
+      Cache.set('dominant_rgb_blue', dom_rgb[2].round)
+      Cache.set('index_reset_at', Time.now.to_i)
+    end
+  }
+
+  respond_to do |format|
+    format.json {
+      content_type :json
+      reset_cache.call
+      current_color.to_json
+    }
+  end
+end
+
+
+
+# --- HTML PAGES ---
+
+# Stream
+get '/stream' do
+  respond_to do |format|
+    format.html {
+      @color_stream = color_stream(params)
+      haml :'stream'
+    }
+  end
+end
+
+# Homepage
+get '/' do
+  respond_to do |format|
+    format.html {
+      @color_info = current_color
+      haml :'index'
+    }
+  end
+end

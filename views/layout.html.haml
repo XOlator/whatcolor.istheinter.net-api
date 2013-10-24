@@ -1,0 +1,25 @@
+!!!
+%html
+  %head
+    %title WhatColor.IsTheInter.net/?
+
+    %link{rel: :stylesheet, href: '/css/api.css', type: 'text/css', media: :all}
+
+    %script{src: 'http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js', type: 'text/javascript'}
+    %script{src: '/js/api.js', type: 'text/javascript'}
+
+    = yield_content(:head) if content_for?(:head)
+
+  %body
+    %header
+      %h1
+        %a{href: '/'} WhatColor.IsTheInter.net/?
+
+    = yield
+
+    #color_loading
+      Loading
+      .one_moment It might take a moment to calculate the results.
+    
+    %footer
+      &copy 2013. Project by <a href="http://gleu.ch">Greg Leuch</a>. Support provided by <a href="http://www.eyebeam.org">Eyebeam</a>.

@@ -1,0 +1,22 @@
+- color = @color_stream[0] rescue nil
+
+- content_for(:head) do
+  - unless color.blank?
+    %style{type: 'text/css'}
+      \ body {background-color: ##{@color_stream[0][:pixel][:hex]};}
+
+  %script{type: 'text/javascript'}
+    Color.Stream.data = #{@color_stream.to_json};
+    (function($) {$(document).ready(function() {Color.Stream.start();});})(jQuery);
+
+
+#color_result
+  #pixel_result
+    %span#pixel_hex_result ##{color[:pixel][:hex] rescue nil}
+    %abbv{title: 'Composite Pixel Color'} Pixel Color
+  #dominant_result
+    %span#dominant_hex_result ##{color[:dominant][:hex] rescue nil}
+    %abbv{title: 'Dominant Color'} Dominant Color
+  #color_web_page
+    %span#color_web_page_url= color[:page][:url] rescue nil
+    %abbv{title: 'Web Page'} Web Page

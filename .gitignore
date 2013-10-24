@@ -1,0 +1,11 @@
+.DS_Store
+._*
+database.yml
+config.yml
+.rspec
+coverage/
+tmp/
+twitter.yml
+s3.yml
+redis.yml
+log
