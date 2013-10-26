@@ -29,16 +29,16 @@
     %meta{content: canonical_url, property: 'og:url'}
     %meta{content: page_title, property: 'og:title'}
     %meta{content: @meta[:description], property: 'og:description'}
-    <meta content='/images/meta.png?1' property='og:image'>
-    <meta content='@InternetColor' name='twitter:site'>
-    <meta content='summary' name='twitter:card'>
+    %meta{content: "#{request.base_url}/images/meta.png?1", property: 'og:image'}
+    %meta{content: '@InternetColor', name: 'twitter:site'}
+    %meta{content: 'summary', name: 'twitter:card'}
     %meta{content: canonical_url, name: 'twitter:url'}
     %meta{content: page_title, name: 'twitter:title'}
     %meta{content: @meta[:description], name: 'twitter:description'}
-    <meta content='/images/meta.png?1' name='twitter:image'>
+    %meta{content: "#{request.base_url}/images/meta.png?1", name: 'twitter:image'}
     %meta{content: page_title, itemprop: 'name'}
     %meta{content: @meta[:description], itemprop: 'description'}
-    <meta content='/images/meta.png?1' itemprop='image'>
+    %meta{content: "#{request.base_url}/images/meta.png?1", itemprop: 'image'}
     \
     %script{src: 'http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js', type: 'text/javascript'}
     %script{src: '/js/moment.js', type: 'text/javascript'}
