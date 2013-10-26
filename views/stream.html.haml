@@ -14,13 +14,13 @@
   .content_box.c
     #color_web_page.color_details
       #color_web_page_url.to.nw= color[:page][:url] rescue nil
-      %abbv{title: 'Web Page'} Web Page
+      %abbv{title: t.pages.stream.details.pages}= t.pages.stream.details.pages_abbv
     .colors.c
       #pixel_result.color_result
         .box{style: "background-color: ##{color[:pixel][:hex] rescue nil}"}
         #pixel_hex_result.color_hex ##{color[:pixel][:hex] rescue nil}
-        %abbv{title: 'Composite Pixel Color'} Pixel Color
+        %abbv{title: t.pages.stream.pixel.avg}= t.pages.stream.pixel.avg_abbv
       #dominant_result.color_result
         .box{style: "background-color: ##{color[:dominant][:hex] rescue nil}"}
         #dominant_hex_result.color_hex ##{color[:dominant][:hex] rescue nil}
-        %abbv{title: 'Dominant Color'} Dominant Palette Color
+        %abbv{title: t.pages.stream.dominant.avg}= t.pages.stream.dominant.avg_abbv

@@ -1,0 +1,39 @@
+name:           'WhatColor.IsTheInter.net/?'
+title_name:     'WhatColor.IsTheInter.net/?'
+
+meta:
+  description:  'Photographing the web. Processing color data. Tweeting the results.'
+
+header:
+  credits1:     'A project by Greg Leuch & Jiashan Wu. 2013'
+  credits2:     'Support from Eyebeam'
+
+footer:
+  credits:      '&copy 2013. Project by <a href="http://gleu.ch">Greg Leuch</a> &amp; <a href="http://fromjia.com">Jiashan Wu</a>. Support provided by <a href="http://www.eyebeam.org">Eyebeam</a>.'
+
+
+
+pages:
+  index:
+    pixel:
+      avg_abbv:   'Avg. Pixel Color'
+      avg:        'Averaged Composite Pixel Color'
+    dominant:
+      avg_abbv:   'Avg. Dominant Color'
+      avg:        'Averaged Dominant Color'
+    details:
+      pages_abbv: 'Pages Processed'
+      pages:      'Total Web Pages Processed'
+      time:
+        as_of:      'As of'
+        updated_at: '&nbsp;&middot;&nbsp; Updates every 5 minutes'
+  stream:
+    pixel:
+      avg_abbv:   'Pixel Color'
+      avg:        'Composite Pixel Color'
+    dominant:
+      avg_abbv:   'Dominant Color'
+      avg:        'Dominant Palette Color'
+    details:
+      pages_abbv: 'Web Page'
+      pages:      'Web Page'      

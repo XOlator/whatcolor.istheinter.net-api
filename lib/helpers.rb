@@ -35,12 +35,13 @@ helpers do
 
   def set_template_defaults
     @meta = {
-      description: t.template.meta.description,
+      description: t.meta.description || 'Photographing the web. Processing color data. Tweeting the results.',
       robots: "index,follow"
     }
     
     @title = nil
     @body_classes = []
+    @canonical_url = nil
 
     @add_javascripts = [
       {src: '/js/jquery-1.8.3.min.js'},
@@ -58,10 +59,12 @@ helpers do
   end
 
   def page_title
-    str = [ t['title_name'] ]
+    str = [ t['title_name'] || 'WhatColor.IsTheInter.net/?' ]
     str.unshift(@title) unless @title.blank?
     str.join(' | ')
   end
+
+  def canonical_url; @canonical_url || request.url; end
 
   def locale_haml(f,locale=nil)
     locale ||= session[:locale]

@@ -13,16 +13,16 @@
       #pixel_result.color_result
         .box{style: "background-color: ##{@color_info[:pixel][:hex] rescue nil}"}
         #pixel_hex_result.color_hex ##{@color_info[:pixel][:hex]}
-        %abbv{title: 'Averaged Composite Pixel Color'} Avg. Pixel Color
+        %abbv{title: t.pages.index.pixel.avg}= t.pages.index.pixel.avg_abbv
       #dominant_result.color_result
         .box{style: "background-color: ##{@color_info[:dominant][:hex] rescue nil}"}
         #dominant_hex_result.color_hex ##{@color_info[:dominant][:hex]}
-        %abbv{title: 'Averaged Dominant Color'} Avg. Dominant Color
+        %abbv{title: t.pages.index.dominant.avg}= t.pages.index.dominant.avg_abbv
     #color_result_details.color_details
       #color_result_count= number_to_delimiter(@color_info[:count])
-      %abbv{title: 'Total Web Pages Processed'} Pages Processed
+      %abbv{title: t.pages.index.details.pages}= t.pages.index.details.pages_abbv
       %br
       .time
-        As of
+        = t.pages.index.details.time.as_of
         %time#color_result_time{datetime: @color_info[:cached_at].to_s}= @color_info[:cached_at].strftime('%b %e, %Y %l:%M:%S%P %Z')
-        &nbsp;&middot;&nbsp; Updates every 5 minutes
+        = t.pages.index.details.time.updated_at
