@@ -7,6 +7,26 @@ def current_color
   }
 end
 
+def reset_current_cache
+  t = Cache.get('index_reset_at') rescue nil
+  t ||= 0
+  to = 5.minutes
+
+  if (Time.now > (Time.at(t.to_i)+to))
+    pixel_rgb, dom_rgb = ColorPalette.pixel_rgb, ColorPalette.dominant_rgb
+    Cache.set('palette_count', ColorPalette.count)
+    Cache.set('pixel_hex_color', ColorPalette.pixel_hex_color)
+    Cache.set('dominant_hex_color', ColorPalette.dominant_hex_color)
+    Cache.set('pixel_rgb_red', pixel_rgb[0].round)
+    Cache.set('pixel_rgb_green', pixel_rgb[1].round)
+    Cache.set('pixel_rgb_blue', pixel_rgb[2].round)
+    Cache.set('dominant_rgb_red', dom_rgb[0].round)
+    Cache.set('dominant_rgb_green', dom_rgb[1].round)
+    Cache.set('dominant_rgb_blue', dom_rgb[2].round)
+    Cache.set('index_reset_at', Time.now.to_i)
+  end
+end
+
 def color_stream(opts={})
   l = opts[:limit]
   l ||= 60
@@ -37,30 +57,10 @@ end
 #   *   [none]
 #
 get '/api/current' do
-  reset_cache = Proc.new {
-    t = Cache.get('index_reset_at') rescue nil
-    t ||= 0
-    to = 5.minutes
-
-    if (Time.now > (Time.at(t.to_i)+to))
-      pixel_rgb, dom_rgb = ColorPalette.pixel_rgb, ColorPalette.dominant_rgb
-      Cache.set('palette_count', ColorPalette.count)
-      Cache.set('pixel_hex_color', ColorPalette.pixel_hex_color)
-      Cache.set('dominant_hex_color', ColorPalette.dominant_hex_color)
-      Cache.set('pixel_rgb_red', pixel_rgb[0].round)
-      Cache.set('pixel_rgb_green', pixel_rgb[1].round)
-      Cache.set('pixel_rgb_blue', pixel_rgb[2].round)
-      Cache.set('dominant_rgb_red', dom_rgb[0].round)
-      Cache.set('dominant_rgb_green', dom_rgb[1].round)
-      Cache.set('dominant_rgb_blue', dom_rgb[2].round)
-      Cache.set('index_reset_at', Time.now.to_i)
-    end
-  }
-
   respond_to do |format|
     format.json {
       content_type :json
-      reset_cache.call
+      reset_current_cache
       current_color.to_json
     }
   end

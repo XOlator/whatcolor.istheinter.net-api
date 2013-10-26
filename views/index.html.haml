@@ -4,15 +4,25 @@
 
   %script{type: 'text/javascript'}
     Color.Current.data = #{@color_info.to_json};
+    (function($) {$(document).ready(function() {Color.Current.start();});})(jQuery);
 
 
 #color_result
-  #pixel_result
-    %span#pixel_hex_result ##{@color_info[:pixel][:hex]}
-    %abbv{title: 'Composite Pixel Color'} Pixel Color
-  #dominant_result
-    %span#dominant_hex_result ##{@color_info[:dominant][:hex]}
-    %abbv{title: 'Dominant Color'} Dominant Color
-  #color_result_details
-    %span#color_result_count
-    %abbv{title: 'Total Web Pages Processed'} Pages Processed
+  .content_box.c
+    .colors.c
+      #pixel_result.color_result
+        .box{style: "background-color: ##{@color_info[:pixel][:hex] rescue nil}"}
+        #pixel_hex_result.color_hex ##{@color_info[:pixel][:hex]}
+        %abbv{title: 'Averaged Composite Pixel Color'} Avg. Pixel Color
+      #dominant_result.color_result
+        .box{style: "background-color: ##{@color_info[:dominant][:hex] rescue nil}"}
+        #dominant_hex_result.color_hex ##{@color_info[:dominant][:hex]}
+        %abbv{title: 'Averaged Dominant Color'} Avg. Dominant Color
+    #color_result_details.color_details
+      #color_result_count= number_to_delimiter(@color_info[:count])
+      %abbv{title: 'Total Web Pages Processed'} Pages Processed
+      %br
+      .time
+        As of
+        %time#color_result_time{datetime: @color_info[:cached_at].to_s}= @color_info[:cached_at].strftime('%b %e, %Y %l:%M:%S%P %Z')
+        &nbsp;&middot;&nbsp; Updates every 5 minutes

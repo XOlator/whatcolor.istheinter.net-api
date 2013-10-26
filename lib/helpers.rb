@@ -35,22 +35,23 @@ helpers do
 
   def set_template_defaults
     @meta = {
-      :description => t.template.meta.description,
-      :robots => "index,follow"
+      description: t.template.meta.description,
+      robots: "index,follow"
     }
     
     @title = nil
     @body_classes = []
 
     @add_javascripts = [
-      {:src => "/js/jquery-1.8.3.min.js"},
-      {:src => "/js/site.js"}
+      {src: '/js/jquery-1.8.3.min.js'},
+      {src: '/js/moment.js'},
+      {src: '/js/site.js'}
     ]
 
     @add_stylesheets = [
-      {:href => "/css/default.css"},
-      {:href => "/css/screen.css", :media => "only screen"},
-      {:href => "/css/mobile.css", :media => "only screen"}
+      {href: "/css/default.css"},
+      {href: "/css/screen.css", media: "only screen"},
+      {href: "/css/mobile.css", media: "only screen"}
     ]
 
     # flash.now[:info] = t.template.alert.high_traffic
@@ -67,7 +68,7 @@ helpers do
     begin
       haml("#{f.to_s}.#{locale}".to_sym)
     rescue
-      Audit.warning(:loggable => Sinatra, :message => "Locale HAML: Missing language file: #{f}", :script => f)
+      Audit.warning(loggable: Sinatra, message: "Locale HAML: Missing language file: #{f}", script: f)
       (dev ? "<p><em>Error:</em> Missing language file for #{f}.</p>" : '')
     end
   end
