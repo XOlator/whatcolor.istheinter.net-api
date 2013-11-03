@@ -54,6 +54,13 @@ class ColorPalette < ActiveRecord::Base
     }
   end
 
+  def to_simple_api(t=:pixel)
+    o = {r: dominant_color_red, g: dominant_color_green, b: dominant_color_blue, hex: dominant_hex_color} if t == :dominant
+    o ||= {r: pixel_color_red, g: pixel_color_green, b: pixel_color_blue, hex: pixel_hex_color}
+    o[:id] = self.id
+    o
+  end
+
 
   def pixel_hex_color
     ("%02x%02x%02x" % [self.pixel_color_red, self.pixel_color_green, self.pixel_color_blue]).upcase

@@ -30,7 +30,14 @@ end
 def color_stream(opts={})
   l = opts[:limit]
   l ||= 60
-  ColorPalette.has_pixel_color.order('id desc').limit(l.to_i > 300 ? 300 : l.to_i).map(&:to_api)
+  obj = ColorPalette.has_pixel_color.order('id desc').limit(l.to_i > 300 ? 300 : l.to_i)
+
+  # Specific hack to make return call results simple.
+  if opts[:simple]
+    obj.map{|v| v.to_simple_api(opts[:color_type] || :pixel) }
+  else
+    obj.map(&:to_api)
+  end
 end
 
 
