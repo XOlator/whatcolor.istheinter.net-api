@@ -49,6 +49,14 @@ end
 #
 get '/api/stream' do
   respond_to do |format|
+    format.csv {
+      params[:simple] = 1 #Force simple
+      content_type :csv
+      csv = [['ID', 'Pixel Red', 'Pixel Green', 'Pixel Blue', 'Pixel Hex'].join(',')]
+      color_stream(params).each{|v| csv << [v[:id], v[:r], v[:g], v[:b], v[:hex]].join(',')}
+      
+      csv.join("\n")
+    }
     format.json {
       content_type :json
       color_stream(params).to_json#, params[:callback]
@@ -65,6 +73,13 @@ end
 #
 get '/api/current' do
   respond_to do |format|
+    format.csv {
+      content_type :csv
+      reset_current_cache
+      csv = [['Count', 'Cached', 'Pixel Red', 'Pixel Green', 'Pixel Blue', 'Pixel Hex', 'Dominant Red', 'Dominant Green', 'Dominant Blue', 'Dominant Hex'].join(',')]
+      csv << [current_color[:count], current_color[:cached_at], current_color[:pixel][:r], current_color[:pixel][:g], current_color[:pixel][:b], current_color[:pixel][:hex], current_color[:dominant][:r], current_color[:dominant][:g], current_color[:dominant][:b], current_color[:dominant][:hex]].join(',')
+      csv.join("\n")
+    }
     format.json {
       content_type :json
       reset_current_cache
