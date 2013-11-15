@@ -52,7 +52,7 @@ get '/api/stream' do
     format.csv {
       params[:simple] = 1 #Force simple
       content_type :csv
-      csv = [['ID', 'Pixel Red', 'Pixel Green', 'Pixel Blue', 'Pixel Hex'].join(',')]
+      csv = [] #['ID', 'Pixel Red', 'Pixel Green', 'Pixel Blue', 'Pixel Hex'].join(',')]
       color_stream(params).each{|v| csv << [v[:id], v[:r], v[:g], v[:b], v[:hex]].join(',')}
       
       csv.join("\n")
