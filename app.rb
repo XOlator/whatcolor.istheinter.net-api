@@ -31,7 +31,7 @@ configure do
   files += Dir.glob("#{APP_ROOT}/lib/*.rb")
   files.each{|r| require r}
 
-  AWS.eager_autoload!
+  # AWS.eager_autoload!
 
   # Ugly override!
   module Sinatra

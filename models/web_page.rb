@@ -59,7 +59,9 @@ class WebPage < ActiveRecord::Base
 
   # API Output
   def to_api
-    {id: id, url: url, title: (title || '').gsub(/\<(\/)?title\>(\n+)?/im, ''), screenshot: {original: screenshot.url(:original), thumbnail: screenshot.url(:thumbnail), pixel: screenshot.url(:pixel)}}
+    {id: id, url: url, title: (title || '').gsub(/\<(\/)?title\>(\n+)?/im, ''), 
+      # screenshot: {original: screenshot.url(:original), thumbnail: screenshot.url(:thumbnail), pixel: screenshot.url(:pixel)}
+    }
   end
 
   # Mark next step. Do save to ensure is passable

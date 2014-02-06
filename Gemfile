@@ -37,4 +37,4 @@ gem 'addressable',              '2.3.5'
 gem 'color',                    '1.4.2'
 
 # API Intgrations
-gem 'aws-sdk',                  '1.17.0'
+# gem 'aws-sdk',                  '1.17.0'
