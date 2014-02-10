@@ -19,7 +19,7 @@ function start_mouse_timeout() {
 
 function number_to_delimiter(i) {
   var parts = (i+'').split('.')
-  parts[0] = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/, "$1,")
+  parts[0] = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
   return parts.join('.')
 }
 
